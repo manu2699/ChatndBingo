@@ -136,7 +136,6 @@ io.on("connection", socket => {
       let index = r % len;
       redisClient.lindex(`Game/${room}/list`, index, (e, r) => {
         let nextUser = r;
-        // console.log(nextUser, index, len)
         io.to(room).emit('MadeCut', { user, room, val, nextUser })
       })
     })
@@ -151,9 +150,7 @@ io.on("connection", socket => {
     redisClient.hgetall(room, (error, reply) => {
       let users = Object.keys(reply);
       for (let i = 0; i < users.length; i++) {
-        redisClient.hset(room, users[i], 0, (error, reply) => {
-          // console.log(users[i], reply)
-        })
+        redisClient.hset(room, users[i], 0, (error, reply) => { })
       }
       io.to(room).emit("Reset", { room });
     })

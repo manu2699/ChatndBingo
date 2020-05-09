@@ -5,14 +5,18 @@ body {
 	font-family: "Fredoka One", cursive;
 }
 
+* {
+	font-weight: 500;
+}
+
 table {
 	position: relative;
 	width: 300px;
 	height: 350px;
 }
-h2,
-h3 {
+h2 {
 	color: #f3506a;
+	font-weight: 500;
 }
 
 th {
@@ -40,7 +44,6 @@ td {
 	flex-wrap: wrap-reverse;
 	align-items: center;
 	justify-items: center;
-	/* height: 100vh; */
 }
 
 .col {
@@ -114,12 +117,14 @@ td {
 	color: #003372;
 	clear: both;
 	height: fit-content;
+	font-size: 1.1em;
 	border-style: none none none solid;
 	border-color: #003372;
 	border-width: 7px;
 }
 
 #sentMsg {
+	font-size: 1.1em;
 	float: right;
 	text-align: right;
 	padding: 10px;
@@ -179,7 +184,6 @@ button {
 	margin-top: 15px;
 	border-radius: 20px 0px 0px 20px;
 	border-width: 4px;
-
 	border-style: solid none solid solid;
 }
 
@@ -201,6 +205,7 @@ button {
 }
 
 h3 {
+	font-weight: 100;
 	background-color: inherit;
 	border-style: none none none solid;
 	border-color: inherit;
@@ -210,12 +215,13 @@ h3 {
 	color: #3d5e85;
 	background-image: linear-gradient(to left, #3d5e85, #3d5e8500);
 	padding: 8px;
-	width: max-content;
+	width: 250px;
 	font-size: 1.2em;
-	text-align: justify;
+	text-align: center;
 }
 
-li {
+h6 {
+	font-weight: 100;
 	list-style-type: none;
 	background-color: inherit;
 	border-style: none none none solid;
@@ -245,9 +251,12 @@ button:hover {
 }
 
 .readyIndicator {
-	color: #f3506a;
-	font-size: 0.8em;
-	margin-left: 10px;
+	font-weight: 100;
+	color: #fff;
+	font-size: 0.7em;
+	float: right;
+	clear: both;
+	margin: 5px;
 }
 
 .untouched {
@@ -261,16 +270,11 @@ button:hover {
 	.col {
 		width: 100%;
 	}
-	#newCircle {
-		margin: -200%;
-	}
 	.reply {
-		margin-left: -15px;
+		width: 90vw;
 	}
 	.chatbox {
-		margin-top: -20px;
-		margin-left: 20px;
-		width: 80vw;
+		width: 90vw;
 	}
 	.inputReply {
 		width: 85%;
@@ -279,7 +283,6 @@ button:hover {
 		margin-top: -15px;
 		font-size: 1.3em;
 	}
-
 	.Randomize,
 	.Ready {
 		margin: 5px;

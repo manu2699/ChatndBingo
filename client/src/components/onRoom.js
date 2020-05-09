@@ -6,7 +6,7 @@ import roomMembers from '../images/roomMembers.png'
 let uniqid = require('uniqid');
 
 const OnRoom = (props) => {
-  let [url, setURL] = useState("");
+  let [url, setURL] = useState("http://localhost:5000");
   let [uid, setUID] = useState(uniqid.time());
   let [joined, setJoined] = useState(false);
   let [joinedUsers, setjoinedUsers] = useState([]);
@@ -84,11 +84,13 @@ const OnRoom = (props) => {
 
   let check = (x, y) => {
     gc = checkRow(x) + checkColumn(y) + checkLeftDiagonal() + checkRightDiagonal() + gc;
-    // console.log(gc, checkRow(x), checkColumn(y));
+
     if (gc >= 5) {
-      console.log(props.location.name)
+      let toSend = props.location.name;
+      if (toSend == null)
+        toSend = name
       let socket = io(url);
-      socket.emit("Win", { name: props.location.name, room: props.match.params.id });
+      socket.emit("Win", { name: toSend, room: props.match.params.id });
     }
     let win = word.substr(0, gc);
     for (const i of win) {
@@ -298,11 +300,12 @@ const OnRoom = (props) => {
 
       setName(props.location.name)
 
-      // alert("chc")
+      // console.log(props.location, url)
 
-      socket.emit('JoinRoom', { user: name, room: props.match.params.id, type: "creator" })
+      socket.emit('JoinRoom', { user: props.location.name, room: props.match.params.id, type: "creator" })
 
       socket.on("JoinedRoom", ({ user, room }) => {
+        // console.log(user, room)
         getUsers();
       })
 
@@ -416,7 +419,7 @@ const OnRoom = (props) => {
               {!isPlaying ? (<div>
                 {canPlay ? (<button id="start" onClick={() => { startEmit() }}>Start the Game</button>) : (<img src={roomMembers} alt="" className="img" style={{ width: "40%" }} />)}
               </div>) : (
-                  <div><li> {liveRep} </li>
+                  <div><h6> {liveRep} </h6>
                   </div>
                 )}
 
@@ -547,14 +550,14 @@ const OnRoom = (props) => {
                               <div style={{ fontSize: "10px", fontWeight: "bold" }}>
                                 You
                         </div>
-                              <div style={{ fontSize: "20px" }}>{msg.msg}</div>
+                              <div>{msg.msg}</div>
                             </div>
                           ) : (
                               <div id="receivedMsg">
                                 <div style={{ fontSize: "10px", fontWeight: "bold" }}>
                                   {msg.user}
                                 </div>
-                                <div style={{ fontSize: "20px" }}>{msg.msg}</div>
+                                <div>{msg.msg}</div>
                               </div>
                             )}
                         </div>
@@ -568,7 +571,7 @@ const OnRoom = (props) => {
               </div>
 
               <div className="reply">
-                <input id="message" type="text" className="inputReply" placeholder="Reply" onKeyPress={e => {
+                <input id="message" autoComplete="off" type="text" className="inputReply" placeholder="Reply" onKeyPress={e => {
                   if (
                     e.key === "Enter" &&
                     e.target.value.length > 0
@@ -588,7 +591,7 @@ const OnRoom = (props) => {
               <div>
                 {!isPlaying ? (
                   <div>
-                    <h3>Members</h3>
+                    <h4 style={{ color: "#3d5e85", fontSize: "1.2em" }}>Members</h4>
                     {joinedUsers.map((item, index) => {
                       if (index % 2 == 0) {
                         let isReady = "Not Ready yet";
