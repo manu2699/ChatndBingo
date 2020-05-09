@@ -162,8 +162,8 @@ const OnRoom = (props) => {
   }
 
   useEffect(() => {
-    console.log(name, props.location.name)
-  }, [name])
+    console.log(msgs)
+  }, [msgs])
 
   let ready = () => {
     let socket = io(url);
@@ -286,7 +286,7 @@ const OnRoom = (props) => {
 
   let sendMsg = () => {
     let socket = io(url);
-    socket.emit('Msg', { user: name, room: props.match.params.id, msg: currMsg })
+    socket.emit('SMsg', { user: name, room: props.match.params.id, msg: currMsg })
     setCurrMsg("");
     document.getElementById("message").value = "";
   }
@@ -649,7 +649,7 @@ const OnRoom = (props) => {
             <div>
               <center>
                 <h6>
-                  Are You sure do you wanna to leave the room?
+                  Are you sure? Wanna leave room?
                 </h6>
                 <br />
                 <button id="start" style={{ width: "max-content", margin: "20px" }} onClick={() => {
