@@ -6,7 +6,7 @@ import roomMembers from '../images/roomMembers.png'
 let uniqid = require('uniqid');
 
 const OnRoom = (props) => {
-  let [url, setURL] = useState("");
+  let [url, setURL] = useState("https://chatndbingo.herokuapp.com");
   let [uid, setUID] = useState(uniqid.time());
   let [joined, setJoined] = useState(false);
   let [joinedUsers, setjoinedUsers] = useState([]);
@@ -292,7 +292,19 @@ const OnRoom = (props) => {
     document.getElementById("message").value = "";
   }
 
+  // useEffect(() => {
+
+  // }, [url])
+
   useEffect(() => {
+    const Detect = ReactIsInDevelomentMode();
+    if (Detect) {
+      setURL("http://localhost:5000");
+    } else {
+      setURL("https://chatndbingo.herokuapp.com");
+      window.addEventListener("beforeunload", onUnload);
+    }
+
     let socket = io(url);
 
     if (props.location.RoomCreated) {
@@ -353,16 +365,7 @@ const OnRoom = (props) => {
         getUsers();
       })
     }
-  }, [url])
 
-  useEffect(() => {
-    const Detect = ReactIsInDevelomentMode();
-    if (Detect) {
-      setURL("http://localhost:5000");
-    } else {
-      setURL("https://chatndbingo.herokuapp.com");
-      window.addEventListener("beforeunload", onUnload);
-    }
   }, [])
 
   let autoScroll = () => {
