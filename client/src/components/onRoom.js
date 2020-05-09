@@ -6,7 +6,7 @@ import roomMembers from '../images/roomMembers.png'
 let uniqid = require('uniqid');
 
 const OnRoom = (props) => {
-  let [url, setURL] = useState("http://localhost:5000");
+  let [url, setURL] = useState("");
   let [uid, setUID] = useState(uniqid.time());
   let [joined, setJoined] = useState(false);
   let [joinedUsers, setjoinedUsers] = useState([]);
@@ -288,24 +288,15 @@ const OnRoom = (props) => {
   }
 
   useEffect(() => {
-    const Detect = ReactIsInDevelomentMode();
-    if (Detect) {
-      setURL("http://localhost:5000");
-    } else {
-      setURL("https://chatndbingo.herokuapp.com");
-    }
     let socket = io(url);
 
     if (props.location.RoomCreated) {
 
       setName(props.location.name)
 
-      // console.log(props.location, url)
-
       socket.emit('JoinRoom', { user: props.location.name, room: props.match.params.id, type: "creator" })
 
       socket.on("JoinedRoom", ({ user, room }) => {
-        // console.log(user, room)
         getUsers();
       })
 
@@ -352,7 +343,15 @@ const OnRoom = (props) => {
         reset();
       })
     }
+  }, [url])
 
+  useEffect(() => {
+    const Detect = ReactIsInDevelomentMode();
+    if (Detect) {
+      setURL("http://localhost:5000");
+    } else {
+      setURL("https://chatndbingo.herokuapp.com");
+    }
   }, [])
 
   let autoScroll = () => {
