@@ -6,6 +6,7 @@ import roomMembers from '../images/roomMembers.png'
 let uniqid = require('uniqid');
 
 const OnRoom = (props) => {
+  // let [url, setURL] = useState("http://localhost:5000");
   let [url, setURL] = useState("https://chatndbingo.herokuapp.com");
   let [uid, setUID] = useState(uniqid.time());
   let [joined, setJoined] = useState(false);
@@ -245,6 +246,7 @@ const OnRoom = (props) => {
       getUsers();
       setIsPlaying(false)
       reset();
+      setGameOver(false)
     })
 
     socket.on("Left", ({ user }) => {
@@ -292,10 +294,6 @@ const OnRoom = (props) => {
     document.getElementById("message").value = "";
   }
 
-  // useEffect(() => {
-
-  // }, [url])
-
   useEffect(() => {
     const Detect = ReactIsInDevelomentMode();
     if (Detect) {
@@ -340,6 +338,7 @@ const OnRoom = (props) => {
       socket.on("GameStart", ({ len, next }) => {
         setIsPlaying(true);
         setLen(len);
+        setLiveRep(`${next}'s turn`)
         setTurn(next);
       })
 
@@ -359,6 +358,7 @@ const OnRoom = (props) => {
         getUsers();
         setIsPlaying(false)
         reset();
+        setGameOver(false)
       })
 
       socket.on("Left", ({ user }) => {
