@@ -368,6 +368,7 @@ const OnRoom = (props) => {
     return (
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh" }}>
         <center>
+          <h2>Room {props.match.params.id}</h2>
           <img src={joinRoom} alt="" className="img" />
           <br />
           <input
@@ -397,6 +398,9 @@ const OnRoom = (props) => {
               </button>)}
           <br />
           <div style={{ margin: "10px " }}>{error}</div>
+          <button id="start" onClick={() => {
+            props.history.push('/');
+          }}>Not this Room?</button>
         </center>
       </div>
     );
