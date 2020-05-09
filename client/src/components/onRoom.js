@@ -207,6 +207,7 @@ const OnRoom = (props) => {
     })
 
     socket.on("Msg", ({ user, room, msg }) => {
+      console.log("creator check 2")
       setMsgs(msgs => [...msgs, { user, room, msg }]);
       autoScroll();
     })
@@ -309,6 +310,7 @@ const OnRoom = (props) => {
       })
 
       socket.on("Msg", ({ user, room, msg }) => {
+        console.log("creator check 1")
         setMsgs(msgs => [...msgs, { user, room, msg }]);
         autoScroll();
       })
