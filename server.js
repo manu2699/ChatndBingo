@@ -105,7 +105,7 @@ io.on("connection", socket => {
   })
 
   socket.on('SMsg', ({ user, room, msg }) => {
-    io.to(room).emit("Msg", { user, room, msg })
+    socket.to(room).emit("Msg", { user, room, msg })
   })
 
   socket.on("Ready", ({ user, room }) => {
