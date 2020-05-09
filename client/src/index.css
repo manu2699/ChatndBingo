@@ -27,9 +27,6 @@ th {
 	opacity: 0.3;
 	border-radius: 20px;
 	box-shadow: 2px 2px 15px rgba(92, 92, 92, 0.5);
-	-webkit-user-select: none; /* Safari */
-	-ms-user-select: none; /* IE 10+ and Edge */
-	user-select: none; /* Standard syntax */
 }
 
 td {
@@ -39,6 +36,9 @@ td {
 	font-size: 1.5em;
 	border-radius: 20px;
 	box-shadow: 2px 2px 15px rgba(255, 255, 255, 0.5);
+	-webkit-user-select: none; /* Safari */
+	-ms-user-select: none; /* IE 10+ and Edge */
+	user-select: none; /* Standard syntax */
 }
 
 .row {
