@@ -246,6 +246,10 @@ const OnRoom = (props) => {
       reset();
     })
 
+    socket.on("Left", ({ user }) => {
+      getUsers();
+    })
+
   }
 
   let drag = (event) => {
@@ -342,6 +346,10 @@ const OnRoom = (props) => {
         setIsPlaying(false)
         reset();
       })
+
+      socket.on("Left", ({ user }) => {
+        getUsers();
+      })
     }
   }, [url])
 
@@ -351,6 +359,7 @@ const OnRoom = (props) => {
       setURL("http://localhost:5000");
     } else {
       setURL("https://chatndbingo.herokuapp.com");
+      window.addEventListener("beforeunload", onUnload);
     }
   }, [])
 
@@ -362,6 +371,17 @@ const OnRoom = (props) => {
   let playAgain = () => {
     let socket = io(url);
     socket.emit(`PlayAgain`, { room: props.match.params.id });
+  }
+
+  let leave = () => {
+    let socket = io(url);
+    socket.emit(`Leave`, { user: name, room: props.match.params.id });
+    props.history.push('/');
+  }
+
+  let onUnload = e => {
+    e.preventDefault();
+    e.returnValue = '';
   }
 
   if ((props.location.RoomCreated == undefined || props.location.RoomCreated == false) && joined == false) {
@@ -413,200 +433,233 @@ const OnRoom = (props) => {
       )
     } else {
       return (
-        <div className="row">
-          <div className="col">
-            <center>
-              {!isPlaying ? (<h2>Room {props.match.params.id}</h2>) : (<div></div>)}
+        <div>
+          <div className="row">
+            <div className="col">
+              <center>
+                {!isPlaying ? (<h2>Room {props.match.params.id}</h2>) : (<div></div>)}
 
 
-              {!isPlaying ? (<div>
-                {canPlay ? (<button id="start" onClick={() => { startEmit() }}>Start the Game</button>) : (<img src={roomMembers} alt="" className="img" style={{ width: "40%" }} />)}
-              </div>) : (
-                  <div><h6> {liveRep} </h6>
-                  </div>
-                )}
-
-              {(isPlaying && gameOver) ? (<button id="again" onClick={() => { playAgain() }}>Play Again</button>) : (<div></div>)}
-
-              <div id="bottom">
-                <div id="Bingo">
-                  <table cellPadding="10px" cellSpacing="8px" style={{ textAlign: "center" }}>
-                    <tbody><tr>
-                      <th id="B">B</th>
-                      <th id="I">I</th>
-                      <th id="N">N</th>
-                      <th id="G">G</th>
-                      <th id="O">O</th>
-                    </tr>
-                      <tr>
-                        <td id={1} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          1
-                </td>
-                        <td id={2} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          2
-                </td>
-                        <td id={3} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          3
-                </td>
-                        <td id={4} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          4
-                </td>
-                        <td id={5} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          5
-                </td>
-                      </tr>
-                      <tr>
-                        <td id={6} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          6
-                </td>
-                        <td id={7} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          7
-                </td>
-                        <td id={8} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          8
-                </td>
-                        <td id={9} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          9
-                </td>
-                        <td id={10} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          10
-                </td>
-                      </tr>
-                      <tr>
-                        <td id={11} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          11
-                </td>
-                        <td id={12} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          12
-                </td>
-                        <td id={13} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          13
-                </td>
-                        <td id={14} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          14
-                </td>
-                        <td id={15} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          15
-                </td>
-                      </tr>
-                      <tr>
-                        <td id={16} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          16
-                </td>
-                        <td id={17} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          17
-                </td>
-                        <td id={18} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          18
-                </td>
-                        <td id={19} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          19
-                </td>
-                        <td id={20} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          20
-                </td>
-                      </tr>
-                      <tr>
-                        <td id={21} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          21
-                      </td>
-                        <td id={22} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          22
-                      </td>
-                        <td id={23} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          23
-                      </td>
-                        <td id={24} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          24
-                      </td>
-                        <td id={25} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
-                          25
-                      </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                </div>
-              </div>
-
-              {!isPlaying ? (<div>
-                <button className="Randomize" onClick={() => { randomize() }}>Randomize</button>
-                <button className="Ready" onClick={() => { ready() }}>Ready</button>
-              </div>) : (<div></div>)}
-
-            </center>
-          </div>
-
-          <div className="col" id="chat">
-            <center>
-              <h2>Chat <i className="fas fa-comments"></i></h2>
-
-              <div className="chatbox" id="chat-window">
-
-                {msgs != undefined && msgs.length > 0 ? (
-                  <div>
-                    {msgs.map(msg => {
-                      return (
-                        <div>
-                          {msg.user == name ? (
-                            <div id="sentMsg">
-                              <div style={{ fontSize: "10px", fontWeight: "bold" }}>
-                                You
-                        </div>
-                              <div>{msg.msg}</div>
-                            </div>
-                          ) : (
-                              <div id="receivedMsg">
-                                <div style={{ fontSize: "10px", fontWeight: "bold" }}>
-                                  {msg.user}
-                                </div>
-                                <div>{msg.msg}</div>
-                              </div>
-                            )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                    <div>No Messages</div>
+                {!isPlaying ? (<div>
+                  {canPlay ? (<button id="start" onClick={() => { startEmit() }}>Start the Game</button>) : (<img src={roomMembers} alt="" className="img" style={{ width: "40%" }} />)}
+                </div>) : (
+                    <div><h6> {liveRep} </h6>
+                    </div>
                   )}
 
-              </div>
+                {(isPlaying && gameOver) ? (<button id="again" onClick={() => { playAgain() }}>Play Again</button>) : (<div></div>)}
 
-              <div className="reply">
-                <input id="message" autoComplete="off" type="text" className="inputReply" placeholder="Reply" onKeyPress={e => {
-                  if (
-                    e.key === "Enter" &&
-                    e.target.value.length > 0
-                  ) {
-                    sendMsg();
-                  }
-                }}
-                  onChange={e => setCurrMsg(e.target.value)}
-                />
-                <button className="transparent" onClick={() => { sendMsg() }}>
-                  <div className="fa-2x">
-                    <i className="fas fa-paper-plane"></i>
-                  </div>
-                </button>
-              </div>
+                <div id="bottom">
+                  <div id="Bingo">
+                    <table cellPadding="10px" cellSpacing="8px" style={{ textAlign: "center" }}>
+                      <tbody><tr>
+                        <th id="B">B</th>
+                        <th id="I">I</th>
+                        <th id="N">N</th>
+                        <th id="G">G</th>
+                        <th id="O">O</th>
+                      </tr>
+                        <tr>
+                          <td id={1} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            1
+                </td>
+                          <td id={2} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            2
+                </td>
+                          <td id={3} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            3
+                </td>
+                          <td id={4} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            4
+                </td>
+                          <td id={5} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            5
+                </td>
+                        </tr>
+                        <tr>
+                          <td id={6} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            6
+                </td>
+                          <td id={7} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            7
+                </td>
+                          <td id={8} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            8
+                </td>
+                          <td id={9} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            9
+                </td>
+                          <td id={10} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            10
+                </td>
+                        </tr>
+                        <tr>
+                          <td id={11} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            11
+                </td>
+                          <td id={12} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            12
+                </td>
+                          <td id={13} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            13
+                </td>
+                          <td id={14} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            14
+                </td>
+                          <td id={15} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            15
+                </td>
+                        </tr>
+                        <tr>
+                          <td id={16} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            16
+                </td>
+                          <td id={17} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            17
+                </td>
+                          <td id={18} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            18
+                </td>
+                          <td id={19} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            19
+                </td>
+                          <td id={20} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            20
+                </td>
+                        </tr>
+                        <tr>
+                          <td id={21} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            21
+                      </td>
+                          <td id={22} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            22
+                      </td>
+                          <td id={23} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            23
+                      </td>
+                          <td id={24} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            24
+                      </td>
+                          <td id={25} draggable="true" onDragStart={(event) => { drag(event) }} onDrop={(event) => { drop(event) }} onDragOver={(event) => { allowDrop(event) }} className="untouched" onClick={(event) => { cut(event) }}>
+                            25
+                      </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-              <div>
-                {!isPlaying ? (
-                  <div>
-                    <h4 style={{ color: "#3d5e85", fontSize: "1.2em" }}>Members</h4>
-                    {joinedUsers.map((item, index) => {
-                      if (index % 2 == 0) {
-                        let isReady = "Not Ready yet";
-                        if (joinedUsers[index + 1] == "1")
-                          isReady = "Ready !.."
-                        return (<h3>{item}<span className="readyIndicator">{isReady}</span></h3>)
-                      }
-                    })}
                   </div>
-                ) : (<div> </div>)}
+                </div>
+
+                {!isPlaying ? (<div>
+                  <button className="Randomize" onClick={() => { randomize() }}>Randomize</button>
+                  <button className="Ready" onClick={() => { ready() }}>Ready</button>
+                </div>) : (<div></div>)}
+
+              </center>
+            </div>
+
+            <div className="col" id="chat">
+              <center>
+                <h2>Chat <i className="fas fa-comments"></i></h2>
+
+                <div className="chatbox" id="chat-window">
+
+                  {msgs != undefined && msgs.length > 0 ? (
+                    <div>
+                      {msgs.map(msg => {
+                        return (
+                          <div>
+                            {msg.user == name ? (
+                              <div id="sentMsg">
+                                <div style={{ fontSize: "10px", fontWeight: "bold" }}>
+                                  You
+                        </div>
+                                <div>{msg.msg}</div>
+                              </div>
+                            ) : (
+                                <div id="receivedMsg">
+                                  <div style={{ fontSize: "10px", fontWeight: "bold" }}>
+                                    {msg.user}
+                                  </div>
+                                  <div>{msg.msg}</div>
+                                </div>
+                              )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                      <div>No Messages</div>
+                    )}
+
+                </div>
+
+                <div className="reply">
+                  <input id="message" autoComplete="off" type="text" className="inputReply" placeholder="Reply" onKeyPress={e => {
+                    if (
+                      e.key === "Enter" &&
+                      e.target.value.length > 0
+                    ) {
+                      sendMsg();
+                    }
+                  }}
+                    onChange={e => setCurrMsg(e.target.value)}
+                  />
+                  <button className="transparent" onClick={() => { sendMsg() }}>
+                    <div className="fa-2x">
+                      <i className="fas fa-paper-plane"></i>
+                    </div>
+                  </button>
+                </div>
+
+                <div>
+                  {!isPlaying ? (
+                    <div>
+                      <h4 style={{ color: "#3d5e85", fontSize: "1.2em" }}>Members</h4>
+                      {joinedUsers.map((item, index) => {
+                        if (index % 2 == 0) {
+                          let isReady = "Not Ready yet";
+                          if (joinedUsers[index + 1] == "1")
+                            isReady = "Ready !.."
+                          return (<h3>{item}<span className="readyIndicator">{isReady}</span></h3>)
+                        }
+                      })}
+                    </div>
+                  ) : (<div> </div>)}
+                </div>
+              </center>
+            </div>
+
+          </div>
+
+          {!isPlaying ? (<div className="leave">
+            <button className="transparent" onClick={() => {
+              document.getElementById("overlay").style.height = "100%";
+            }}>
+              Leave Room
+            <div style={{ color: "#3d5e85", fontSize: "1.2em" }}>
+                <i class="fas fa-sign-out-alt"></i>
               </div>
-            </center>
+            </button>
+          </div>
+          ) : (<div></div>)}
+
+
+          <div id="overlay">
+            <div>
+              <center>
+                <h6>
+                  Are You sure do you wanna to leave the room?
+                </h6>
+                <br />
+                <button id="start" style={{ width: "max-content", margin: "20px" }} onClick={() => {
+                  leave();
+                }}>Yes</button>
+                <button id="start" style={{ width: "max-content" }} onClick={() => {
+                  document.getElementById("overlay").style.height = "0";
+                }}>No</button>
+              </center>
+            </div>
           </div>
         </div>
       );

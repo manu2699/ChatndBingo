@@ -56,10 +56,8 @@ io.on("connection", socket => {
       if (reply != null && reply != undefined) {
         let len = Object.keys(reply).length;
         if (len <= 3 && len > 0) {
-
           socket.join(room, () => {
-            if (type == "creator") {
-            }
+            if (type == "creator") { }
             else {
               redisClient.hset(room, user, 0, (error, reply) => {
                 console.log(`New ${room} created`, error, reply)
@@ -67,19 +65,16 @@ io.on("connection", socket => {
             }
             io.to(room).emit('JoinedRoom', { user, room })
           })
-
         }
         else {
           io.emit(`FullRoom/${id}`, { user, room })
         }
       }
     })
-
   })
 
   socket.on('CheckRoom', ({ roomId, id }) => {
     redisClient.hgetall(roomId, (error, reply) => {
-      console.log(error, reply)
       if (reply == null) {
         io.emit(`NoRoom/${id}`, { roomId })
       }
@@ -142,7 +137,6 @@ io.on("connection", socket => {
   })
 
   socket.on("Win", ({ name, room }) => {
-    console.log("name", name)
     io.to(room).emit("Won", name)
   })
 
@@ -152,8 +146,16 @@ io.on("connection", socket => {
       for (let i = 0; i < users.length; i++) {
         redisClient.hset(room, users[i], 0, (error, reply) => { })
       }
+      redisClient.del(`Game/${room}/list`, `Game/${room}/cntr`, (err, rep) => {
+        console.log(err, rep)
+      })
       io.to(room).emit("Reset", { room });
     })
+  })
+
+  socket.on("Leave", ({ room, user }) => {
+    redisClient.hdel(room, user, (err, rep) => { });
+    io.to(room).emit("Left", ({ user }));
   })
 
 });
