@@ -298,6 +298,8 @@ const OnRoom = (props) => {
 
       setName(props.location.name)
 
+      alert("chc")
+
       socket.emit('JoinRoom', { user: name, room: props.match.params.id, type: "creator" })
 
       socket.on("JoinedRoom", ({ user, room }) => {
