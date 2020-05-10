@@ -68,7 +68,6 @@ const Home = (props) => {
             <img src={createRoom} alt="" className="img" />
             <br />
             <input
-              id="name"
               className="input"
               type="text"
               autoComplete="off"
