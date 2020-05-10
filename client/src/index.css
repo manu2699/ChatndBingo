@@ -2,7 +2,12 @@
 body {
 	margin: 0;
 	background-color: #b9d8fd;
+	background-image: url("../src/images/bg.png");
 	font-family: "Fredoka One", cursive;
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 * {
@@ -43,13 +48,6 @@ td {
 	font-size: 1.5em;
 	border-radius: 20px;
 	box-shadow: 2px 2px 15px rgba(255, 255, 255, 0.5);
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .row {
@@ -226,12 +224,16 @@ h3 {
 	border-radius: 0px 20px 20px 0px;
 	margin: 2%;
 	border-left-width: 5px;
-	color: #3d5e85;
-	background-image: linear-gradient(to left, #3d5e85, #3d5e8500);
+	color: #f73959;
+	background-image: linear-gradient(to left, #3d5e8577, #f7395927);
 	padding: 8px;
-	width: 250px;
 	font-size: 1.2em;
 	text-align: center;
+	max-width: 300px;
+	height: max-content;
+	overflow: auto;
+	height: max-content;
+	overflow: auto;
 }
 
 h6 {
@@ -247,7 +249,9 @@ h6 {
 	border-left-width: 5px;
 	background-image: linear-gradient(to left, #f739598f, #3d5e8500);
 	padding: 10px;
-	width: max-content;
+	max-width: 300px;
+	height: max-content;
+	overflow: auto;
 	font-size: 1.2em;
 	text-align: justify;
 }
@@ -294,7 +298,9 @@ button:hover {
 	padding: 0px 5px;
 	background-color: inherit;
 	border-style: solid none none none;
-	border-radius: 0px 0px 30px 30px;
+	border-radius: 0px 0px 25px 25px;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
 	color: #f3506a;
 	background-color: #ee305023;
 	border-top-width: 7px;
