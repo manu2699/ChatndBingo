@@ -6,7 +6,13 @@ const app = express();
 const redis = require("redis");
 let redisClient;
 if (process.env.REDIS_URL) {
-  redisClient = redis.createClient(process.env.REDIS_URL)
+  redisClient = redis.createClient({ url: process.env.REDIS_URL })
+  redisClient.on("error", (err) => {
+    console.info("redis client error", err)
+  })
+  redisClient.connect().then(data => {
+    console.info("redis client connected", data);
+  })
 } else {
   redisClient = redis.createClient()
 }

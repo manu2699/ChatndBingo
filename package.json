@@ -6,14 +6,14 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "node server.js",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm isntall --prefix client && npm run build --prefix client"
+		"build": "NPM_CONFIG_PRODUCTION=false npm i --prefix client && npm run build --prefix client"
 	},
 	"author": "Maneesh K",
 	"license": "ISC",
 	"dependencies": {
 		"express": "^4.17.1",
 		"nedb": "^1.8.0",
-		"redis": "^3.0.2",
+		"redis": "^4.5.1",
 		"socket.io": "^2.3.0"
 	}
 }
