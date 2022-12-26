@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import joinRoom from '../images/joinRoom.png'
 import roomMembers from '../images/roomMembers.png'
 
