@@ -7,7 +7,7 @@ let uniqid = require('uniqid');
 
 const OnRoom = (props) => {
   // let [url, setURL] = useState("http://localhost:5000");
-  let [url, setURL] = useState("https://chatndbingo.herokuapp.com");
+  let [url, setURL] = useState("https://chatndbingo.onrender.com");
   let [uid, setUID] = useState(uniqid.time());
   let [joined, setJoined] = useState(false);
   let [joinedUsers, setjoinedUsers] = useState([]);
@@ -298,8 +298,9 @@ const OnRoom = (props) => {
     const Detect = ReactIsInDevelomentMode();
     if (Detect) {
       setURL("http://localhost:5000");
+      // setURL("https://chatndbingo.onrender.com");
     } else {
-      setURL("https://chatndbingo.herokuapp.com");
+      setURL("https://chatndbingo.onrender.com");
       window.addEventListener("beforeunload", onUnload);
     }
 
