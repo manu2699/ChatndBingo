@@ -30,13 +30,14 @@ const port = process.env.PORT || 5000;
 const serveHost = process.env.YOUR_HOST || "0.0.0.0";
 
 var server = app.listen(port, serveHost, () => {
-  console.log(`Server running on ${port}`);
+  console.log(`Server running on ${port} and ${serveHost}`);
 });
 
 var io = require("socket.io")(server);
 io.on("connection", socket => {
-
+  console.info("socket connected", socket);
   socket.on('CreateRoom', ({ user, id }) => {
+    console.info("socket on Create Room", socket);
     let roomName = Math.floor((Math.random() * 9999))
 
     socket.join(roomName, () => {
