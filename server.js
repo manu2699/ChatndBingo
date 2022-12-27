@@ -7,6 +7,7 @@ const app = express();
 
 const redis = require("redis");
 let redisClient;
+console.info("--BINGO-- :", process.env.REDIS_URL);
 if (process.env.REDIS_URL) {
 	redisClient = redis.createClient({ url: process.env.REDIS_URL });
 } else {
