@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import React, { useEffect, useState, useRef } from "react";
+import { Manager } from "socket.io-client";
 import createRoom from "../images/createRoom.png";
 import joinRoom from "../images/joinRoom.png";
 
-let uniqid = require("uniqid");
+const uniqid = require("uniqid");
+
 const Home = (props) => {
-	let [url, setURL] = useState("");
-	let [uid, setUID] = useState(uniqid.time());
-	let [name, setName] = useState("");
-	let [roomId, setRoomID] = useState("");
-	let [error, setError] = useState("");
+	const uid = useRef(uniqid.time());
+	const socketRef = useRef({});
+	const [name, setName] = useState("");
+	const [roomId, setRoomID] = useState("");
+	const [error, setError] = useState("");
 
 	let ReactIsInDevelomentMode = () => {
 		return "_self" in React.createElement("div");
 	};
 
-	let Create = () => {
-		let socket = io(url);
-		socket.emit(`CreateRoom`, { user: name, id: uid });
+	const Create = () => {
+		const socket = socketRef.current;
+		socket.emit(`CreateRoom`, { user: name, id: uid.current });
 
 		socket.on("CreatedRoom", ({ user, roomName }) => {
-			console.log(user, roomName);
+			console.info("on create room client", { user, roomName });
 			props.history.push({
 				pathname: `/room/${roomName}`,
 				RoomCreated: true,
@@ -29,35 +30,42 @@ const Home = (props) => {
 		});
 	};
 
-	let Check = () => {
-		let socket = io(url);
-		socket.emit(`CheckRoom`, { roomId, id: uid });
+	const Check = () => {
+		const socket = socketRef.current;
+		socket.emit(`CheckRoom`, { roomId, id: uid.current });
 
-		socket.on(`Available/${uid}`, ({ roomId }) => {
+		socket.on(`Available/${uid.current}`, ({ roomId }) => {
 			props.history.push({
 				pathname: `/room/${roomId}`,
 				RoomCreated: false
 			});
 		});
 
-		socket.on(`NoRoom/${uid}`, ({ roomId }) => {
+		socket.on(`NoRoom/${uid.current}`, ({ roomId }) => {
 			setError(`No Room called ${roomId} is found`);
 		});
 
-		socket.on(`FullRoom/${uid}`, ({ roomId }) => {
+		socket.on(`FullRoom/${uid.current}`, ({ roomId }) => {
 			setError(`Room ${roomId} is full`);
 		});
 	};
 
 	useEffect(() => {
 		const Detect = ReactIsInDevelomentMode();
+		let url = "https://chatndbingo.onrender.com";
 		if (Detect) {
-			setURL("http://localhost:5000");
-			// setURL("https://chatndbingo.onrender.com");
-		} else {
-			setURL("https://chatndbingo.onrender.com");
+			url = "http://localhost:10000";
 		}
-	});
+		const manager = new Manager(url, { autoConnect: true });
+		manager.open((err, resp) => {
+			if (err) {
+				console.info("error while connecting socket", err);
+			} else {
+				console.info("socket connected successfully", resp);
+			}
+		});
+		socketRef.current = manager.socket("/");
+	}, []);
 
 	return (
 		<div>
