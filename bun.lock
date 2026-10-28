@@ -9,12 +9,21 @@
         "typescript": "^5.9.0",
       },
     },
+    "apps/server": {
+      "name": "@bingo/server",
+      "version": "2.0.0",
+      "dependencies": {
+        "@bingo/shared": "workspace:*",
+      },
+    },
     "packages/shared": {
       "name": "@bingo/shared",
       "version": "2.0.0",
     },
   },
   "packages": {
+    "@bingo/server": ["@bingo/server@workspace:apps/server"],
+
     "@bingo/shared": ["@bingo/shared@workspace:packages/shared"],
 
     "@types/bun": ["@types/bun@1.4.4", "", { "dependencies": { "bun-types": "1.4.4" } }, "sha512-9wkRDXUXK124pEnAutE6n/l18j+i9GC5IAHK8TmX/2nlySETmky0OU6yL5U8pW1AoKh++AN9auDCr647BfurjQ=="],

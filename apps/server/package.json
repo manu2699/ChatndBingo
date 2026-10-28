@@ -1,0 +1,13 @@
+{
+	"name": "@bingo/server",
+	"version": "2.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "bun --watch src/index.ts",
+		"start": "bun src/index.ts"
+	},
+	"dependencies": {
+		"@bingo/shared": "workspace:*"
+	}
+}

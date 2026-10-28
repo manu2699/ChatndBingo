@@ -38,7 +38,6 @@ export interface RoomSnapshot {
 	called: number[];
 	turn: string | null;
 	winners: string[];
-	chat: ChatMessage[];
 }
 
 export type ErrorCode =
@@ -83,6 +82,7 @@ export type ServerMessage =
 	| { t: "board.unlocked" }
 	| { t: "game.strike"; by: string; n: number; next: string | null }
 	| { t: "game.over"; winners: string[] }
+	| { t: "chat.history"; messages: ChatMessage[] }
 	| { t: "chat.msg"; msg: ChatMessage }
 	| { t: "chat.typing"; from: string }
 	| { t: "left"; rid?: string }

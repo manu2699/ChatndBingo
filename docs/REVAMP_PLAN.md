@@ -43,7 +43,7 @@ packages/shared  Message types and pure game logic, used by both sides
 - Live game state stays in memory; Redis is written on transitions only (create / join / ready / start / end), not per move or chat message.
 - One key per room with a sliding TTL (~2 h); chat history is a trimmed list (last 50).
 - After a restart or spin-down, rooms rehydrate lazily from Redis. A flushed Redis just loses those rooms.
-- Pub/sub is the cross-instance bus (optional on a single free instance).
+- Cross-instance fan-out via Redis pub/sub is deferred: Render's free tier is a single instance, and multi-instance would also need room-ownership locking. Bun's `RedisClient` already exposes `publish`/`subscribe`, so it's a clean follow-up.
 - Everything sits behind a `RoomStore` interface: in-memory implementation when `REDIS_URL` is unset (local dev needs nothing), Redis implementation otherwise.
 
 ### Render fit
