@@ -79,6 +79,8 @@ All honour `prefers-reduced-motion`; sound is off by default.
 
 ## Phases
 
+Status: all six phases are implemented on this branch (Phase 3 and 5 landed together).
+
 1. **Foundation** — Bun workspace, `packages/shared` with game logic + tests, remove `nedb` and CRA.
 2. **Server** — `Bun.serve`, protocol, rooms, sessions/reconnect, `RoomStore` (memory then Redis), server-authoritative game; `bun test` incl. multi-socket integration tests.
 3. **Client core** — Vite app, socket hook with reconnect, home / lobby / game / chat at feature parity, new `<Board>` with touch drag.

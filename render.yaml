@@ -1,0 +1,21 @@
+# Render Blueprint: one free web service + one free Key Value (Redis-compatible) instance.
+services:
+  - type: web
+    name: chatndbingo
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: chatndbingo-redis
+          property: connectionString
+
+keyvalue:
+  - name: chatndbingo-redis
+    plan: free
+    # The free instance has little memory and is treated as a cache: evict, don't fail writes.
+    maxmemoryPolicy: allkeys-lru
+    # Internal connections only.
+    ipAllowList: []

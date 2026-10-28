@@ -14,11 +14,14 @@
 		"dev:web": "bun --cwd apps/web run dev",
 		"build": "bun --cwd apps/web run build",
 		"start": "bun apps/server/src/index.ts",
-		"typecheck": "tsc -b",
-		"test": "bun test"
+		"typecheck": "tsc -p packages/shared && tsc -p apps/server && tsc -p apps/web",
+		"test": "bun test",
+		"test:e2e": "bun test ./e2e/game.e2e.ts",
+		"dev": "bun run dev:server & bun run dev:web"
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
-		"typescript": "^5.9.0"
+		"typescript": "^5.9.0",
+		"playwright": "1.63.0"
 	}
 }
