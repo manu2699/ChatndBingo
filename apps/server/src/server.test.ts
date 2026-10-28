@@ -134,8 +134,9 @@ describe("websocket server", () => {
 		const { code } = await a.create("Ann");
 		await b.join(code, "Bo");
 
-		a.send({ t: "player.ready", board: orderedBoard() });
+		a.send({ t: "player.ready", board: orderedBoard(), rid: "ready-1" });
 		await a.next("board.locked");
+		expect(await a.next("ok")).toEqual({ t: "ok", rid: "ready-1" });
 		b.send({ t: "player.ready", board: orderedBoard() });
 		await b.next("board.locked");
 

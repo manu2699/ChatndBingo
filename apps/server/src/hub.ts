@@ -62,6 +62,9 @@ export const newSocketData = (): SocketData => ({
 	chat: new Bucket(5, 1)
 });
 
+/** Requests whose own reply already carries the rid. */
+const SELF_REPLYING = new Set<ClientMessage["t"]>(["room.create", "room.join", "room.resume", "room.check", "room.leave"]);
+
 const topic = (code: string) => `room:${code}`;
 
 const makeCode = () => {
@@ -131,6 +134,7 @@ export class Hub {
 
 		try {
 			await this.dispatch(ws, msg);
+			if (msg.rid && !SELF_REPLYING.has(msg.t)) this.send(ws, { t: "ok", rid: msg.rid });
 		} catch (err) {
 			if (err instanceof GameError) return this.error(ws, err.code, err.message, msg);
 			console.error("[hub] unhandled", err);

@@ -87,6 +87,8 @@ export type ServerMessage =
 	| { t: "chat.typing"; from: string }
 	| { t: "left"; rid?: string }
 	| { t: "error"; rid?: string; code: ErrorCode; message: string }
+	/** Generic success reply for requests whose real effect arrives as a broadcast. */
+	| { t: "ok"; rid: string }
 	| { t: "pong" };
 
 const str = (v: unknown, max: number): string | null => {
