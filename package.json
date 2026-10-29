@@ -1,20 +1,27 @@
 {
 	"name": "chatndbingo",
-	"version": "1.0.0",
+	"version": "2.0.0",
+	"private": true,
 	"description": "Chat and play Bingo with your friends",
-	"main": "server.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "node server.js",
-		"build": "npm i",
-		"postinstall": "NPM_CONFIG_PRODUCTION=false npm i --prefix client && npm run build --prefix client"
-	},
 	"author": "Maneesh K",
 	"license": "ISC",
-	"dependencies": {
-		"express": "^4.17.1",
-		"nedb": "^1.8.0",
-		"redis": "^4.5.1",
-		"socket.io": "^4.5.4"
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"dev:server": "bun --watch apps/server/src/index.ts",
+		"dev:web": "bun --cwd apps/web run dev",
+		"build": "bun --cwd apps/web run build",
+		"start": "bun apps/server/src/index.ts",
+		"typecheck": "tsc -p packages/shared && tsc -p apps/server && tsc -p apps/web",
+		"test": "bun test",
+		"test:e2e": "bun test ./e2e/game.e2e.ts",
+		"dev": "bun run dev:server & bun run dev:web"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"typescript": "^5.9.0",
+		"playwright": "1.63.0"
 	}
 }

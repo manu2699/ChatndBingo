@@ -1,0 +1,10 @@
+{
+	"name": "Chat & Bingo",
+	"short_name": "Bingo",
+	"description": "Play Bingo with your friends, with chat.",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#b9d8fd",
+	"theme_color": "#b9d8fd",
+	"icons": [{ "src": "/logo.png", "sizes": "500x430", "type": "image/png" }]
+}
